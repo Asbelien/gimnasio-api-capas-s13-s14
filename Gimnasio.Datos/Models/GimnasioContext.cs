@@ -14,6 +14,8 @@ public partial class GimnasioContext : DbContext
 
     public virtual DbSet<Socio> Socios { get; set; }
 
+    public virtual DbSet<Usuario> Usuarios { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Membresia>(entity =>
@@ -42,6 +44,17 @@ public partial class GimnasioContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Nombre).HasMaxLength(100);
             entity.Property(e => e.Telefono).HasMaxLength(15);
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.HasIndex(e => e.Correo).IsUnique();
+
+            entity.Property(e => e.Correo).HasMaxLength(150);
+            entity.Property(e => e.ClaveHash).HasMaxLength(200);
+            entity.Property(e => e.Rol).HasMaxLength(30);
         });
 
         OnModelCreatingPartial(modelBuilder);

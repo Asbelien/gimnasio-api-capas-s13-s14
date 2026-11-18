@@ -1,12 +1,14 @@
 ﻿using Gimnasio.Entidades.Dtos;
 using Gimnasio.Negocio.Excepciones;
 using Gimnasio.Negocio.Servicios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gimnasio.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class SociosController(ISocioServicio socioServicio, IMembresiaServicio membresiaServicio) : ControllerBase
 {
     [HttpGet]
@@ -40,6 +42,7 @@ public class SociosController(ISocioServicio socioServicio, IMembresiaServicio m
     }
 
     [HttpPost]
+    [Authorize(Roles = "Recepcionista")]
     public async Task<ActionResult<SocioDto>> PostSocio(SocioCrearDto dto)
     {
         try
@@ -55,6 +58,7 @@ public class SociosController(ISocioServicio socioServicio, IMembresiaServicio m
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Recepcionista")]
     public async Task<IActionResult> PutSocio(int id, SocioActualizarDto dto)
     {
         try
@@ -71,6 +75,7 @@ public class SociosController(ISocioServicio socioServicio, IMembresiaServicio m
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Recepcionista")]
     public async Task<IActionResult> DeleteSocio(int id)
     {
         try
